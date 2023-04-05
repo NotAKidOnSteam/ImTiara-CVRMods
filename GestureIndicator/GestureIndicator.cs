@@ -45,7 +45,7 @@ namespace GestureIndicator
             { 6, null },
         };
 
-        public override void OnApplicationStart()
+        public override void OnInitializeMelon()
         {
             AssetLoader.Load();
 
@@ -68,18 +68,18 @@ namespace GestureIndicator
             LEFT_COLOR = category.CreateEntry("LeftColor", "#00FFFF", "Left Color");
             RIGHT_COLOR = category.CreateEntry("RightColor", "#00FFFF", "Right Color");
 
-            ENABLE.OnValueChanged += (editedValue, defaultValue) => ToggleIndicators(ENABLE.Value);
+            ENABLE.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => ToggleIndicators(ENABLE.Value));
 
-            X_POS.OnValueChanged += (editedValue, defaultValue) => SetPosition(new Vector2(X_POS.Value, Y_POS.Value));
-            Y_POS.OnValueChanged += (editedValue, defaultValue) => SetPosition(new Vector2(X_POS.Value, Y_POS.Value));
-            
-            DISTANCE.OnValueChanged += (editedValue, defaultValue) => SetDistance(DISTANCE.Value);
-            SIZE.OnValueChanged += (editedValue, defaultValue) => SetSize(SIZE.Value);
-            
-            OPACITY.OnValueChanged += (editedValue, defaultValue) => RefreshColors();
-            LEFT_COLOR.OnValueChanged += (editedValue, defaultValue) => RefreshColors();
-            RIGHT_COLOR.OnValueChanged += (editedValue, defaultValue) => RefreshColors();
-            
+            X_POS.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => SetPosition(new Vector2(X_POS.Value, Y_POS.Value)));
+            Y_POS.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => SetPosition(new Vector2(X_POS.Value, Y_POS.Value)));
+
+            DISTANCE.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => SetDistance(DISTANCE.Value));
+            SIZE.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => SetSize(SIZE.Value));
+
+            OPACITY.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => RefreshColors());
+            LEFT_COLOR.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => RefreshColors());
+            RIGHT_COLOR.OnEntryValueChangedUntyped.Subscribe((editedValue, defaultValue) => RefreshColors());
+
             MelonCoroutines.Start(WaitForRecognizer());
         }
 
@@ -127,7 +127,7 @@ namespace GestureIndicator
                 m_Root = GameObject.Instantiate(AssetLoader.template, Camera.main.transform);
                 m_Root.transform.localPosition = Vector3.zero;
                 m_Root.transform.localRotation = Quaternion.identity;
-                
+
                 m_LeftRootRect = m_Root.transform.Find("LeftRoot").GetComponent<RectTransform>();
                 m_RightRootRect = m_Root.transform.Find("RightRoot").GetComponent<RectTransform>();
 
@@ -140,7 +140,7 @@ namespace GestureIndicator
                 m_LeftImage.sprite = AssetLoader._null;
                 m_RightImage.sprite = AssetLoader._null;
             }
-            
+
             m_Root.SetActive(enable);
 
             if (enable)
