@@ -33,7 +33,7 @@ namespace GestureIndicator
         public static Image m_LeftImage;
         public static Image m_RightImage;
 
-        public static readonly Dictionary<float, Sprite> elements = new()
+        public static readonly Dictionary<int, Sprite> elements = new()
         {
             { -1, null },
             { 0, null },
@@ -89,22 +89,22 @@ namespace GestureIndicator
             {
                 try
                 {
-                    if (CVRInputManager.Instance.gestureLeft > 0.05f && CVRInputManager.Instance.gestureLeft < 1.95f)
+                    if (CVRInputManager.Instance.gestureLeft > 0f && CVRInputManager.Instance.gestureLeft < 2f)
                     {
                         m_LeftImage.sprite = elements[1];
                     }
                     else
                     {
-                        m_LeftImage.sprite = elements[CVRInputManager.Instance.gestureLeft];
+                        m_LeftImage.sprite = elements[(int)CVRInputManager.Instance.gestureLeft];
                     }
 
-                    if (CVRInputManager.Instance.gestureRight > 0.05f && CVRInputManager.Instance.gestureRight < 1.95f)
+                    if (CVRInputManager.Instance.gestureRight > 0f && CVRInputManager.Instance.gestureRight < 2f)
                     {
                         m_RightImage.sprite = elements[1];
                     }
                     else
                     {
-                        m_RightImage.sprite = elements[CVRInputManager.Instance.gestureRight];
+                        m_RightImage.sprite = elements[(int)CVRInputManager.Instance.gestureRight];
                     }
                 }
                 catch (Exception e) { MelonLogger.Error("Error checking gestures: " + e); }
